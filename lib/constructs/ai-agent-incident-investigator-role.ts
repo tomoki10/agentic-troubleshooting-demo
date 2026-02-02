@@ -1,20 +1,19 @@
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { Stack } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 
 export class AiAgentIncidentInvestigatorRole extends Construct {
-  public readonly role: iam.Role;
+  public readonly user: iam.User;
+  public readonly accessKey: iam.AccessKey;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.role = new iam.Role(this, 'Role', {
-      roleName: 'AiAgentIncidentInvestigatorRole',
-      assumedBy: new iam.AccountPrincipal(Stack.of(this).account),
+    this.user = new iam.User(this, 'User', {
+      userName: 'AiAgentIncidentInvestigator',
     });
 
     // ポリシーA: CloudWatch中心
-    this.role.addToPolicy(
+    this.user.addToPolicy(
       new iam.PolicyStatement({
         sid: 'CloudWatchInvestigationPolicy',
         effect: iam.Effect.ALLOW,
@@ -35,7 +34,7 @@ export class AiAgentIncidentInvestigatorRole extends Construct {
     );
 
     // ポリシーB: その他サービス
-    this.role.addToPolicy(
+    this.user.addToPolicy(
       new iam.PolicyStatement({
         sid: 'AwsInvestigationPolicy',
         effect: iam.Effect.ALLOW,
@@ -60,7 +59,7 @@ export class AiAgentIncidentInvestigatorRole extends Construct {
     );
 
     // SSM（SecureString除外）
-    this.role.addToPolicy(
+    this.user.addToPolicy(
       new iam.PolicyStatement({
         sid: 'SsmInvestigationPolicy',
         effect: iam.Effect.ALLOW,
@@ -78,5 +77,9 @@ export class AiAgentIncidentInvestigatorRole extends Construct {
         },
       })
     );
+
+    this.accessKey = new iam.AccessKey(this, 'AccessKey', {
+      user: this.user,
+    });
   }
 }
