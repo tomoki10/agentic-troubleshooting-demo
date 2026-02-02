@@ -1,16 +1,16 @@
 import * as cdk from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { AiAgentIncidentInvestigatorRole } from './constructs/ai-agent-incident-investigator-role';
 
 export class SampleCodeStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const investigatorRole = new AiAgentIncidentInvestigatorRole(this, 'AiAgentIncidentInvestigatorRole');
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'SampleCodeQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    new cdk.CfnOutput(this, 'AiAgentIncidentInvestigatorRoleArn', {
+      value: investigatorRole.role.roleArn,
+      description: 'ARN of the AI Agent Incident Investigator Role',
+    });
   }
 }
