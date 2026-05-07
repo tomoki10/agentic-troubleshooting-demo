@@ -11,7 +11,6 @@ export class WorkshopSsmParameters extends Construct {
   constructor(scope: Construct, id: string, props: WorkshopSsmParametersProps) {
     super(scope, id);
 
-    // typo（アンダースコア）の方のみ作成。Lambda はハイフン版を読みに行って ParameterNotFound で失敗する
     this.typoParam = new ssm.StringParameter(this, 'TypoParam', {
       parameterName: `/workshop/${props.userId}/test_key`,
       stringValue: 'dummy-value-for-workshop',
