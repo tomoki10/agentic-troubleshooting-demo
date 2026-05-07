@@ -2,8 +2,6 @@
 
 AI Ops 研修「Claude Code でアプリ障害の一次調査を行う」用のデモ環境を構築する CDK プロジェクト。
 
-参加者ごとに、SSM パラメータ名 typo を原因とした `ParameterNotFound` を発火する Lambda を払い出す。
-
 ## ディレクトリ構成
 
 ```text

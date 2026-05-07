@@ -1,6 +1,6 @@
 # 障害シナリオ
 
-Lambda は環境変数 `SSM_PARAM_NAME=/workshop/<userId>/test-key`（ハイフン）を読みにいくが、SSM 側には `/workshop/<userId>/test_key`（アンダースコア）しか存在しないため `ParameterNotFound` でエラーになる。CloudWatch Alarm が発火し、研修参加者が一次調査を行う題材となる。
+Lambda でエラーが発生するため調査を行う。
 
 Stage 4 で参加者か講師が以下のコマンドで暫定対応する想定。
 
