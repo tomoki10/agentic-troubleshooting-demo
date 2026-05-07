@@ -14,11 +14,11 @@ export class SampleCodeStack extends cdk.Stack {
     super(scope, id, props);
 
     // AI Agent 用の調査ポリシー（参加者用とは別管理）
-    const investigatorRole = new AiAgentIncidentInvestigatorRole(this, 'AiAgentIncidentInvestigatorRole');
-    new cdk.CfnOutput(this, 'InvestigatorPolicyArn', {
-      value: investigatorRole.policy.managedPolicyArn,
-      description: 'Policy ARN for AI Agent Incident Investigator',
-    });
+    // const investigatorRole = new AiAgentIncidentInvestigatorRole(this, 'AiAgentIncidentInvestigatorRole');
+    // new cdk.CfnOutput(this, 'InvestigatorPolicyArn', {
+    //   value: investigatorRole.policy.managedPolicyArn,
+    //   description: 'Policy ARN for AI Agent Incident Investigator',
+    // });
 
     // 参加者用の最小権限ポリシー（aws:username で SSM スコープ）
     const participantPolicy = new WorkshopParticipantPolicy(this, 'WorkshopParticipantPolicy');

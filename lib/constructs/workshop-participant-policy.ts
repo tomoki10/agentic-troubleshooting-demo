@@ -12,7 +12,7 @@ export class WorkshopParticipantPolicy extends Construct {
 
     this.policy = new iam.ManagedPolicy(this, 'Policy', {
       managedPolicyName: 'WorkshopParticipantPolicy',
-      description: 'Minimal-privilege policy for workshop participants (logs read / lambda read / ssm scoped to ${aws:username})',
+      description: 'Minimal-privilege policy for workshop participants (logs read / lambda read / ssm scoped',
       statements: [
         new iam.PolicyStatement({
           sid: 'ReadLogs',
@@ -22,28 +22,21 @@ export class WorkshopParticipantPolicy extends Construct {
             'logs:StartQuery',
             'logs:GetQueryResults',
             'logs:DescribeLogGroups',
+            'cloudwatch:DescribeAlarms',
           ],
           resources: ['*'],
         }),
         new iam.PolicyStatement({
           sid: 'ReadLambda',
           effect: iam.Effect.ALLOW,
-          actions: [
-            'lambda:GetFunction',
-            'lambda:GetFunctionConfiguration',
-            'lambda:ListFunctions',
-          ],
+          actions: ['lambda:GetFunction', 'lambda:GetFunctionConfiguration', 'lambda:ListFunctions'],
           resources: [`arn:aws:lambda:${stack.region}:${stack.account}:function:workshop-*`],
         }),
         new iam.PolicyStatement({
           sid: 'SsmScoped',
           effect: iam.Effect.ALLOW,
-          actions: [
-            'ssm:GetParameter',
-            'ssm:PutParameter',
-            'ssm:DescribeParameters',
-          ],
-          resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/aws/workshop/\${aws:username}/*`],
+          actions: ['ssm:GetParameter', 'ssm:PutParameter', 'ssm:DescribeParameters'],
+          resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/workshop/*`],
         }),
       ],
     });

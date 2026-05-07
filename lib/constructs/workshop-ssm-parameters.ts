@@ -13,9 +13,9 @@ export class WorkshopSsmParameters extends Construct {
 
     // typo（アンダースコア）の方のみ作成。Lambda はハイフン版を読みに行って ParameterNotFound で失敗する
     this.typoParam = new ssm.StringParameter(this, 'TypoParam', {
-      parameterName: `/aws/workshop/${props.userId}/anthropic_api_key`,
-      stringValue: 'sk-ant-api-dummy-value-for-workshop',
-      description: 'Anthropic API key (typo: underscore version, should be anthropic-api-key)',
+      parameterName: `/workshop/${props.userId}/test_key`,
+      stringValue: 'dummy-value-for-workshop',
+      description: 'Test key',
     });
   }
 }

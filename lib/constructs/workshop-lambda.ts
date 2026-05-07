@@ -28,7 +28,7 @@ export class WorkshopLambda extends Construct {
     lambdaRole.addToPolicy(
       new iam.PolicyStatement({
         actions: ['ssm:GetParameter'],
-        resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/aws/workshop/${props.userId}/*`],
+        resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/workshop/${props.userId}/*`],
       })
     );
 
@@ -42,8 +42,8 @@ export class WorkshopLambda extends Construct {
       role: lambdaRole,
       environment: {
         APP_NAME: `workshop-${props.userId}`,
-        // 正しい名前（ハイフン）。SSM 側にはアンダースコア版しかないため ParameterNotFound になる
-        SSM_PARAM_NAME: `/aws/workshop/${props.userId}/anthropic-api-key`,
+        // ★変更ポイント
+        SSM_PARAM_NAME: `/workshop/${props.userId}/test-key`,
       },
     });
 
