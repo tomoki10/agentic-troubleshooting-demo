@@ -43,7 +43,7 @@ export class WorkshopLambda extends Construct {
       environment: {
         APP_NAME: `workshop-${props.userId}`,
         // ★変更ポイント
-        SSM_PARAM_NAME: `/workshop/${props.userId}/test_key`,
+        SSM_PARAM_NAME: `/workshop/${props.userId}/test-key`,
       },
     });
 
