@@ -2,6 +2,10 @@
 !jest.config.js
 *.d.ts
 node_modules
+.DS_Store
+access-key.json
+*.sh
+*.zip
 
 # CDK asset staging directory
 .cdk.staging

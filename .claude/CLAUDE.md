@@ -1,0 +1,2 @@
+- aws cliを使用する場合、以下のようにprofileはworkshopを使用してください
+  - AWS_PROFILE=workshop aws logs
