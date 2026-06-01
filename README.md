@@ -69,6 +69,15 @@ pnpm cdk deploy SampleCodeStack-alice --context participantIds='["alice","bob","
 ./ak-delete.sh alice bob charlie
 ```
 
+## Lamndaの実行
+
+```bash
+# 1回実行
+./auto-invoke-lambda.sh alice
+# ループ実行
+while true; do ./auto-invoke-lambda.sh alice; sleep 180; done
+```
+
 ## 主要コマンド
 
 | コマンド | 用途 |
