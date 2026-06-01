@@ -14,13 +14,13 @@ aws ssm put-parameter \
 
 # ユーザー単位
 aws ssm put-parameter \
-  --name /workshop/test-key \
+  --name /workshop/<userId>/test-key \
   --type String \
   --value "..." \
   --region ap-northeast-1
 ```
 
-参加者 IAM ユーザは別途 CLI で作成し、`WorkshopParticipantPolicy` をアタッチする。`<id>` は IAM ユーザ名と一致させる必要がある（`${aws:username}` で SSM をスコープしているため）。
+参加者 IAM ユーザは別途 CLI で作成し、`WorkshopParticipantPolicy`（`WorkshopSharedStack` が出力）をアタッチする。`<userId>` は IAM ユーザ名・参加者スタック `SampleCodeStack-<userId>` のサフィックスと一致させる必要がある（`${aws:username}` で SSM / Lambda / Logs をスコープしているため）。
 
 ```bash
 export USER_NAME="alice"
@@ -49,6 +49,6 @@ json
 疎通確認
 
 ```bash
-aws cloudwatch describe-alarms --alarm-names "workshop-demo-fn-error-alarm"
+aws cloudwatch describe-alarms --alarm-names "workshop-<userId>-fn-error-alarm"
 ```
 
