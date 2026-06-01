@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "ask": [
+      "Bash(aws ssm put-parameter:*)",
+      "Bash(aws lambda update-function-configuration:*)",
+      "Bash(aws lambda update-function-code:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)"
+    ]
+  }
+}
