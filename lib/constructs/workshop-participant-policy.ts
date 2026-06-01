@@ -44,14 +44,19 @@ export class WorkshopParticipantPolicy extends Construct {
             `arn:aws:logs:${stack.region}:${stack.account}:log-group:/aws/lambda/workshop-\${aws:username}-fn:*`,
           ],
         }),
-        // Lambda の参照は自分の関数に限定
+        // Lambda の参照・更新は自分の関数に限定（Stage 4 の暫定対応で環境変数を修正できる）
         new iam.PolicyStatement({
-          sid: 'ReadOwnLambda',
+          sid: 'OwnLambda',
           effect: iam.Effect.ALLOW,
-          actions: ['lambda:GetFunction', 'lambda:GetFunctionConfiguration'],
+          actions: [
+            'lambda:GetFunction',
+            'lambda:GetFunctionConfiguration',
+            'lambda:UpdateFunctionConfiguration',
+            'lambda:UpdateFunctionCode',
+          ],
           resources: [`arn:aws:lambda:${stack.region}:${stack.account}:function:workshop-\${aws:username}-fn`],
         }),
-        // SSM は自分の名前空間配下に限定
+        // SSM は自分の名前空間配下に限定（GetParameter は参照、PutParameter は更新）
         new iam.PolicyStatement({
           sid: 'SsmScoped',
           effect: iam.Effect.ALLOW,
