@@ -78,6 +78,17 @@ pnpm cdk deploy SampleCodeStack-alice --context participantIds='["alice","bob","
 while true; do ./auto-invoke-lambda.sh alice; sleep 180; done
 ```
 
+## Stage 6: 間欠障害フラグの切り替え（講師用）
+
+`EXPERIMENTAL_MODE` を on にすると約 30% の間欠失敗（＋良性 WARN）が発火する。受講者は ask モードで off に戻して復旧させる。詳細は `docs/scenario.md` の Stage 6 を参照。
+
+```bash
+# 発火（Stage 6 開始）
+./toggle-experimental.sh on alice bob charlie
+# 復旧（収束確認用）
+./toggle-experimental.sh off alice bob charlie
+```
+
 ## 主要コマンド
 
 | コマンド | 用途 |

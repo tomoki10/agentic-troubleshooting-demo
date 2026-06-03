@@ -9,6 +9,8 @@ import * as path from 'path';
 
 export interface WorkshopLambdaProps {
   userId: string;
+  // Stage 6 の間欠障害フラグ。'on' で約 30% の間欠失敗を再現する。デフォルトは 'off'（Stage 0-5 のみ）。
+  experimentalMode?: string;
 }
 
 export class WorkshopLambda extends Construct {
@@ -44,6 +46,8 @@ export class WorkshopLambda extends Construct {
         APP_NAME: `workshop-${props.userId}`,
         // ★変更ポイント
         SSM_PARAM_NAME: `/workshop/${props.userId}/test-key`,
+        // Stage 6: 間欠障害フラグ。講師が on に切り替えて発火、受講者が off に戻して復旧させる。
+        EXPERIMENTAL_MODE: props.experimentalMode ?? 'off',
       },
     });
 

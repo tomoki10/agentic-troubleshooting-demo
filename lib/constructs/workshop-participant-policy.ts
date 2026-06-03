@@ -44,7 +44,8 @@ export class WorkshopParticipantPolicy extends Construct {
             `arn:aws:logs:${stack.region}:${stack.account}:log-group:/aws/lambda/workshop-\${aws:username}-fn:*`,
           ],
         }),
-        // Lambda の参照・更新は自分の関数に限定（Stage 4 の暫定対応で環境変数を修正できる）
+        // Lambda の参照・更新・実行は自分の関数に限定
+        // （Stage 4 の暫定対応で環境変数を修正、Stage 6 の復旧確認で invoke する）
         new iam.PolicyStatement({
           sid: 'OwnLambda',
           effect: iam.Effect.ALLOW,
@@ -53,6 +54,7 @@ export class WorkshopParticipantPolicy extends Construct {
             'lambda:GetFunctionConfiguration',
             'lambda:UpdateFunctionConfiguration',
             'lambda:UpdateFunctionCode',
+            'lambda:InvokeFunction',
           ],
           resources: [`arn:aws:lambda:${stack.region}:${stack.account}:function:workshop-\${aws:username}-fn`],
         }),
