@@ -3,6 +3,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as logs from 'aws-cdk-lib/aws-logs';
 import { Duration } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import * as path from 'path';
@@ -34,8 +35,17 @@ export class WorkshopLambda extends Construct {
       })
     );
 
+    // ロググループを明示的に作成し、スタック削除時に確実に削除されるようにする
+    // （Lambda が自動作成するロググループは CloudFormation 管理外となり削除されずに残るため）
+    const logGroup = new logs.LogGroup(this, 'LogGroup', {
+      logGroupName: `/aws/lambda/workshop-${props.userId}-fn`,
+      retention: logs.RetentionDays.ONE_WEEK,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
     this.function = new nodejs.NodejsFunction(this, 'Function', {
       functionName: `workshop-${props.userId}-fn`,
+      logGroup,
       runtime: lambda.Runtime.NODEJS_24_X,
       entry: path.join(__dirname, '../../lambda/workshop-function/index.ts'),
       handler: 'handler',
