@@ -17,6 +17,6 @@ for USER_NAME in "${USER_NAMES[@]}"; do
     --function-name "$FUNCTION_NAME" \
     --payload '{}' \
     --cli-binary-format raw-in-base64-out \
-    "response-${USER_NAME}.json"
+    /dev/null > /dev/null
 
 done
