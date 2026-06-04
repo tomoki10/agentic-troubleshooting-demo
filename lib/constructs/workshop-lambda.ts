@@ -41,6 +41,7 @@ export class WorkshopLambda extends Construct {
       handler: 'handler',
       memorySize: 128,
       timeout: Duration.seconds(10),
+      reservedConcurrentExecutions: 3,
       role: lambdaRole,
       environment: {
         APP_NAME: `workshop-${props.userId}`,
