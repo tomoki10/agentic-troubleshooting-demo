@@ -46,6 +46,10 @@ for USER_NAME in "${USER_NAMES[@]}"; do
       --policy-arn "$POLICY_ARN"
   done
 
+  # ログインプロファイルの削除（存在しない場合はスキップ）
+  echo "  Deleting login profile..."
+  aws iam delete-login-profile --user-name "$USER_NAME" 2>/dev/null || true
+
   # IAMユーザーの削除
   echo "  Deleting user $USER_NAME..."
   aws iam delete-user --user-name "$USER_NAME"

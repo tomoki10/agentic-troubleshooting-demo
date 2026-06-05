@@ -60,14 +60,22 @@ pnpm cdk deploy --all --context participantIds='["alice","bob","charlie"]'
 pnpm cdk deploy SampleCodeStack-alice --context participantIds='["alice","bob","charlie"]'
 ```
 
-## アクセスキー作成・削除
+## 参加者ユーザーの作成・削除
 
 ```bash
-# アクセスキーの作成
+# ユーザーの作成（アクセスキーとコンソールログイン情報を発行）
 ./ak-create.sh 12345678910 alice bob charlie
-# アクセスキーの削除
+# ユーザーの削除
 ./ak-delete.sh alice bob charlie
 ```
+
+`ak-create.sh` を実行すると、以下の2ファイルが生成される。
+
+- `access-key.json` — CLI 用アクセスキー（Access Key ID / Secret Access Key）
+- `console-login.csv` — マネジメントコンソール用ログイン情報（ユーザー名、パスワード、サインイン URL）
+
+コンソールのサインイン URL は `https://<account-id>.signin.aws.amazon.com/console` 形式。  
+いずれのファイルも `.gitignore` で管理対象外。
 
 ## Lamndaの実行
 

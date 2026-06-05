@@ -17,6 +17,11 @@ else
   USER_NAMES=("USER01")
 fi
 
+# コンソールログイン情報ファイルのヘッダー行（未存在の場合のみ）
+if [ ! -f "console-login.csv" ]; then
+  echo "User name,Password,Console sign-in URL" > "console-login.csv"
+fi
+
 for USER_NAME in "${USER_NAMES[@]}"; do
   export USER_NAME
   echo "=== Creating user: $USER_NAME ==="
@@ -28,4 +33,14 @@ for USER_NAME in "${USER_NAMES[@]}"; do
     --policy-arn "arn:aws:iam::${ACCOUNT_ID}:policy/WorkshopParticipantPolicy"
 
   aws iam create-access-key --user-name "$USER_NAME" >> "access-key.json"
+
+  # コンソールログイン用パスワードを自動生成（英大小・数字・記号を必ず含む）
+  PASSWORD="$(openssl rand -base64 15 | tr -d '/+=' | cut -c1-12)aA1!"
+
+  aws iam create-login-profile \
+    --user-name "$USER_NAME" \
+    --password "$PASSWORD" \
+    --no-password-reset-required
+
+  echo "${USER_NAME},${PASSWORD},https://${ACCOUNT_ID}.signin.aws.amazon.com/console" >> "console-login.csv"
 done

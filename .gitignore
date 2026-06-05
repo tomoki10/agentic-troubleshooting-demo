@@ -4,6 +4,7 @@
 node_modules
 .DS_Store
 access-key.json
+console-login.csv
 *.zip
 
 # CDK asset staging directory
